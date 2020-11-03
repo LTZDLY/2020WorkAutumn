@@ -76,6 +76,20 @@ List<T>::List(/* args */)
 template <class T>
 List<T>::~List()
 {
+    Node<T> *p = this->_head;
+    if (p->_next == nullptr)
+    {
+        delete p;
+        return;
+    }
+    p = p->_next;
+    while (p->_next != nullptr)
+    {
+        auto node = p;
+        p = p->_next;
+        delete node;
+    }
+    delete this->_head;
 }
 
 template <class T>
@@ -90,10 +104,7 @@ void List<T>::listIns(int n, T data)
     }
     Node<T> *node = new Node<T>;
     node->_data = data;
-    if (p->_next == nullptr)
-        node->_next = nullptr;
-    else
-        node->_next = p->_next;
+    node->_next = p->_next;
     p->_next = node;
     this->_len++;
 }
@@ -120,7 +131,12 @@ std::string List<T>::listPop(T data)
 template <class T>
 int List<T>::listFind(T data)
 {
-    Node<T> *p = this->_head->_next;
+    Node<T> *p = this->_head;
+    if (p->_next == nullptr)
+    {
+        throw "error0";
+    }
+    p = p->_next;
     int i = 0;
     while (1)
     {
@@ -142,7 +158,12 @@ int List<T>::listLen() const { return this->_len; }
 template <class T>
 void List<T>::listChange(int n, T data)
 {
-    Node<T> *p = this->_head->_next;
+    Node<T> *p = this->_head;
+    if (p->_next == nullptr)
+    {
+        throw "error0";
+    }
+    p = p->_next;
     for (int i = 0; i < n; i++)
     {
         if (p->_next == nullptr)
@@ -155,7 +176,12 @@ void List<T>::listChange(int n, T data)
 template <class T>
 std::string List<T>::listPrint(int n) const
 {
-    Node<T> *p = this->_head->_next;
+    Node<T> *p = this->_head;
+    if (p->_next == nullptr)
+    {
+        throw "error0";
+    }
+    p = p->_next;
     for (int i = 0; i < n; i++)
     {
         if (p->_next == nullptr)
@@ -170,7 +196,7 @@ std::string List<T>::listPrint(int n) const
 void opening(int &num, List<Student> &list)
 {
     std::cout << "首先建立考生信息系统！" << std::endl
-            << "请输入考生人数：";
+              << "请输入考生人数：";
     std::cin >> num;
     std::cout << "请依次输入考生的学号，姓名，性别，年龄及报考类别！（用空格分隔）" << std::endl;
     for (int i = 0; i < num; i++)
@@ -212,7 +238,7 @@ void delList(List<Student> &list)
     Student temp;
     temp._id = i;
     std::cout << "所删除的考生信息为：\n"
-            << list.listPop(temp);
+              << list.listPop(temp);
     printList(list);
 }
 void findList(List<Student> &list)
@@ -224,7 +250,7 @@ void findList(List<Student> &list)
     temp._id = i;
     int n = list.listFind(temp);
     std::cout << "考号" << '\t' << "姓名" << '\t' << "性别" << '\t' << "年龄" << '\t' << "报考类别" << std::endl
-            << list.listPrint(n);
+              << list.listPrint(n);
 }
 void exchangeList(List<Student> &list)
 {
@@ -282,7 +308,6 @@ int main()
     opening(num, list);
     printList(list);
     std::cout << "请选择您要进行的操作（1为插入，2为删除，3为查找，4为修改，5为统计，0为取消操作）" << std::endl;
-    while (loop(list))
-        ;
+    while (loop(list));
     return 0;
 }
