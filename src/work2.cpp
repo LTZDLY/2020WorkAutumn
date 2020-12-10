@@ -1,32 +1,26 @@
 #include <iostream>
-#include <string>
 #include <sstream>
+#include <string>
 
 #include "..\inc\list.h"
 
-int main()
-{
+int main() {
     List<int> list_a;
     int temp = 0;
-    while (1)
-    {
+    while (1) {
         std::cin >> temp;
-        if (temp == -1)
-            break;
+        if (temp == -1) break;
         list_a.listIns(list_a.listLen(), temp);
     }
     List<int> list_b;
     temp = 0;
-    while (1)
-    {
+    while (1) {
         std::cin >> temp;
-        if (temp == -1)
-            break;
+        if (temp == -1) break;
         list_b.listIns(list_b.listLen(), temp);
     }
     List<int> list_c;
-    for (int i = 0; i < list_a.listLen(); i++)
-    {
+    for (int i = 0; i < list_a.listLen(); i++) {
         if (list_b.listFind(list_a[i]) != -1)
             list_c.listIns(list_c.listLen(), list_a[i]);
     }

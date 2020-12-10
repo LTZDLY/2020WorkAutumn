@@ -6,7 +6,6 @@ template <class T>
 class GenList {
     GenList();
     ~GenList();
-
 };
 
 template <class T>
@@ -18,5 +17,4 @@ class GenListNode {
         T val;
         GenListNode<T>* lval;
     };
-    
 };

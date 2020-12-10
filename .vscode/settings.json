@@ -7,6 +7,15 @@
         "limits": "cpp",
         "deque": "cpp",
         "xstring": "cpp",
-        "cstdlib": "cpp"
+        "cstdlib": "cpp",
+        "xutility": "cpp",
+        "unordered_map": "cpp",
+        "utility": "cpp",
+        "queue": "cpp",
+        "ios": "cpp",
+        "map": "cpp",
+        "xhash": "cpp",
+        "xtree": "cpp",
+        "iosfwd": "cpp"
     }
 }
