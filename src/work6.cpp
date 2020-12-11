@@ -123,14 +123,14 @@ void Tree<T>::printchildren(ostream& os, const T p) {
     auto i = this->search(p);
     if (i == NULL) throw "error";
     auto c = i->children;
-    os << p << "的第一代子孙是：";
+    os << "The first generations of " << p << " are: ";
     for (auto&& i : c) os << i->val << ' ';
     os << endl;
     return;
 }
 
 bool loop(Tree<string>& family) {
-    cout << "\n请选择要执行的操作：";
+    cout << "\nPlease enter a command:";
     char temp = '\0';
     cin >> temp;
     int num = 0;
@@ -140,11 +140,12 @@ bool loop(Tree<string>& family) {
     switch (temp) {
         case '1':
             // add children
-            cout << "请输入要建立家庭的人的姓名：";
+            cout << "Please enter the name of the person who will establish a "
+                    "family:";
             cin >> p;
-            cout << "请输入" << p << "的儿女人数：";
+            cout << "Please enter the number of children of " << p << ".";
             cin >> num;
-            cout << "请依次输入" << p << "的儿女姓名：";
+            cout << "Please enter the name of children of " << p << " in turn.";
             for (int i = 0; i < num; i++) {
                 cin >> child;
                 children.push_back(child);
@@ -154,29 +155,33 @@ bool loop(Tree<string>& family) {
             return true;
         case '2':
             // add a child;
-            cout << "请输入要添加儿子/女儿的人的姓名：";
+            cout << "Please enter the name of the person you want to add the "
+                    "child to:";
             cin >> p;
-            cout << "请输入" << p << "新添加的儿子/女儿的姓名：";
+            cout << "Please enter the name of the child " << p << " will add:";
             cin >> child;
             family.inschild(p, child);
             family.printchildren(cout, p);
             return true;
         case '3':
             // delete sub tree;
-            cout << "请输入要建立家庭的人的姓名：";
+            cout << "Please enter the name of the person whose family you want "
+                    "to dissolve";
             cin >> p;
-            cout << "要解散家庭的人是" << p << endl;
+            cout << "The person whose family will be dissolved is " << p
+                 << ".\n";
             family.printchildren(cout, p);
             family.del(p);
             return true;
         case '4':
             // change name;
-            cout << "请输入要更改姓名的人的目前姓名：";
+            cout << "Please enter the current name of the person whose name "
+                    "you want to change:";
             cin >> p;
-            cout << "请输入要更改后的姓名：";
+            cout << "Please enter the name you want to change:";
             cin >> child;
             family.changename(p, child);
-            cout << p << "已更名为" << child << endl;
+            cout << p << " has been renamed " << child << ".\n";
             return true;
         default:
             return false;
@@ -184,20 +189,29 @@ bool loop(Tree<string>& family) {
 }
 
 int main() {
-    cout << "**                 家谱管理系统                 **" << endl
-         << "==================================================" << endl
-         << "**             请选择要执行的操作：             **" << endl
-         << "**             1 —— 完善家谱                  **" << endl
-         << "**             2 —— 添加家庭成员              **" << endl
-         << "**             3 —— 解散局部家庭              **" << endl
-         << "**             4 —— 更改家庭成员姓名          **" << endl
-         << "**             5 —— 解散家庭                  **" << endl;
+    cout << "**                Genealogy management system                **"
+         << endl
+         << "==============================================================="
+         << endl
+         << "**           Please select the action to perform:            **"
+         << endl
+         << "**             1 --- Perfect the genealogy                   **"
+         << endl
+         << "**             2 --- Add family members                      **"
+         << endl
+         << "**             3 --- Disband a part of the family            **"
+         << endl
+         << "**             4 --- Change the names of family members      **"
+         << endl
+         << "**             5 --- Exit                                    **"
+         << endl;
 
-    cout << "首先建立一个家谱" << endl << "请输入祖先的姓名：";
+    cout << "Start with a family tree." << endl
+         << "Please enter the name of the ancestor:";
     string temp = "";
     cin >> temp;
     Tree<string> tree(temp);
-    cout << "此家谱的祖先是：" << temp << endl << endl;
+    cout << "The ancestors of this family tree is " << temp << ".\n" << endl;
 
     while (loop(tree))
         ;
