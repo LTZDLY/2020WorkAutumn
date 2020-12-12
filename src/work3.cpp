@@ -126,13 +126,13 @@ void print(int map[23][23], int dd[100][2]) {
         for (int j = 0; j < 23; j++) {
             switch (map[i][j]) {
                 case -1:
-                    str += '#';
+                    str += "＃";
                     break;
                 case 0:
-                    str += '.';
+                    str += "　";
                     break;
                 case 1:
-                    str += '1';
+                    str += "１";
                     break;
             }
         }
@@ -145,10 +145,15 @@ int main() {
     // map[1][1],map[21][21]
 
     print(map, dir);
+    std::cout << std::endl;
     int a[2] = {1, 1};
     dir[0][0] = dir[0][1] = 1;
     map[1][1] = 1;
     dfs(a, map, 1);
     map[1][1] = 0;
     print(map, dir);
+    std::cout << std::endl;
+    std::cout << "(" << dir[0][0] << ", " << dir[0][1] << ")";
+    for (int i = 1; i < len; i++) 
+        std::cout << " ---> (" << dir[i][0] << ", " << dir[i][1] << ")";
 }
