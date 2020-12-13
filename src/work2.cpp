@@ -22,19 +22,30 @@ class List {
 
    public:
     T &operator[](int i);
-    void listIns(int n, T data);  //将数据插入第n个节点中
-    T listPop(T data);    //查找链表中的数据返回并删除节点
-    int listFind(T id);   //查找数据在链表中的位置
-    int listLen() const;  //返回链表长度
-    bool empty() const;   //返回是否为空
-    void listChange(int n, T data);      //修改链表第n个节点的值
-    std::string listPrint(int n) const;  //将链表输出
+    void ListIns(int n, T data);  //将数据插入第n个节点中
+    T ListPop(T data);    //查找链表中的数据返回并删除节点
+    int ListFind(T id);   //查找数据在链表中的位置
+    int ListLen() const;  //返回链表长度
+    bool Empty() const;   //返回是否为空
+    void ListChange(int n, T data);      //修改链表第n个节点的值
+    std::string ListPrint(int n) const;  //将链表输出
     List();
     ~List();
 };
 
 template <class T>
-bool List<T>::empty() const {
+T &List<T>::operator[](int n) {
+    if (this->Empty()) throw "Error: The list is empty.";
+    auto p = this->_head->_next;
+    for (int i = 0; i < n; i++) {
+        if (p->_next == nullptr) throw "Error: Not so many nodes.";
+        p = p->_next;
+    }
+    return p->_data;
+}
+
+template <class T>
+bool List<T>::Empty() const {
     if (this->_head->_next == nullptr)
         return true;
     else
@@ -63,7 +74,7 @@ List<T>::~List() {
 }
 
 template <class T>
-void List<T>::listIns(int n, T data) {
+void List<T>::ListIns(int n, T data) {
     Node<T> *p = this->_head;
     for (int i = 0; i < n; i++) {
         if (p->_next == nullptr) throw "Error: Not so many nodes.";
@@ -77,9 +88,9 @@ void List<T>::listIns(int n, T data) {
 }
 
 template <class T>
-T List<T>::listPop(T data) {
-    if (this->empty()) throw "Error: The list is empty.";
-    int n = this->listFind(data);
+T List<T>::ListPop(T data) {
+    if (this->Empty()) throw "Error: The list is Empty.";
+    int n = this->ListFind(data);
     if (n == -1) throw "Error: Data not found.";
     Node<T> *p = this->_head;
     for (int i = 0; i < n; i++) {
@@ -95,8 +106,8 @@ T List<T>::listPop(T data) {
 }
 
 template <class T>
-int List<T>::listFind(T data) {
-    if (this->empty()) return -1;
+int List<T>::ListFind(T data) {
+    if (this->Empty()) return -1;
     Node<T> *p = this->_head;
     p = p->_next;
     int i = 0;
@@ -107,25 +118,15 @@ int List<T>::listFind(T data) {
         i++;
     }
 }
-template <class T>
-T &List<T>::operator[](int n) {
-    if (this->empty()) throw "Error: The list is empty.";
-    auto p = this->_head->_next;
-    for (int i = 0; i < n; i++) {
-        if (p->_next == nullptr) throw "Error: Not so many nodes.";
-        p = p->_next;
-    }
-    return p->_data;
-}
 
 template <class T>
-int List<T>::listLen() const {
+int List<T>::ListLen() const {
     return this->_len;
 }
 
 template <class T>
-void List<T>::listChange(int n, T data) {
-    if (this->empty()) throw "Error: The list is empty.";
+void List<T>::ListChange(int n, T data) {
+    if (this->Empty()) throw "Error: The list is Empty.";
 
     auto p = this->_head->_next;
     for (int i = 0; i < n; i++) {
@@ -136,8 +137,8 @@ void List<T>::listChange(int n, T data) {
 }
 
 template <class T>
-std::string List<T>::listPrint(int n) const {
-    if (this->empty()) throw "Error: The list is empty.";
+std::string List<T>::ListPrint(int n) const {
+    if (this->Empty()) throw "Error: The list is Empty.";
 
     auto p = this->_head->_next;
     for (int i = 0; i < n; i++) {
@@ -151,9 +152,9 @@ std::string List<T>::listPrint(int n) const {
 
 template <class T>
 void findIntersection(List<T> &list_a, List<T> &list_b, List<T> &list_c) {
-    for (int i = 0; i < list_a.listLen(); i++) {
-        if (list_b.listFind(list_a[i]) != -1)
-            list_c.listIns(list_c.listLen(), list_a[i]);
+    for (int i = 0; i < list_a.ListLen(); i++) {
+        if (list_b.ListFind(list_a[i]) != -1)
+            list_c.ListIns(list_c.ListLen(), list_a[i]);
     }
 }
 void opening() {
@@ -168,15 +169,15 @@ void insert(List<T> &list) {
     while (1) {
         std::cin >> temp;
         if (temp == "-1") break;
-        list.listIns(list.listLen(), temp);
+        list.ListIns(list.ListLen(), temp);
     }
 }
 template <class T>
 void print(std::ostream &os, List<T> &list) {
-    if (list.listLen() == 0)
+    if (list.ListLen() == 0)
         os << "NULL";
     else
-        for (int i = 0; i < list.listLen(); i++) os << list.listPrint(i) << ' ';
+        for (int i = 0; i < list.ListLen(); i++) os << list.ListPrint(i) << ' ';
     std::cout << std::endl;
 }
 

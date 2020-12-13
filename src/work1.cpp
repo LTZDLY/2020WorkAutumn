@@ -3,31 +3,31 @@
 #include <string>
 
 struct Student {
-    int _id = 0;          //学号
-    int _age = 0;         //年龄
-    std::string _sex;     //性别
-    std::string _name;    //姓名
-    std::string _choice;  //志愿
+    int id = 0;          //学号
+    int age = 0;         //年龄
+    std::string sex;     //性别
+    std::string name;    //姓名
+    std::string choice;  //志愿
     friend std::ostream &operator<<(std::ostream &output, const Student &D);
     friend std::istream &operator>>(std::istream &input, const Student &D);
     bool operator==(const Student D);
     void operator=(const Student D);
 };
-bool Student::operator==(const Student D) { return (this->_id == D._id); }
+bool Student::operator==(const Student D) { return (this->id == D.id); }
 void Student::operator=(const Student D) {
-    this->_age = D._age;
-    this->_choice = D._choice;
-    this->_id = D._id;
-    this->_name = D._name;
-    this->_sex = D._sex;
+    this->age = D.age;
+    this->choice = D.choice;
+    this->id = D.id;
+    this->name = D.name;
+    this->sex = D.sex;
 }
 std::ostream &operator<<(std::ostream &output, const Student &D) {
-    output << D._id << '\t' << D._name << '\t' << D._sex << '\t' << D._age
-           << '\t' << D._choice << std::endl;
+    output << D.id << '\t' << D.name << '\t' << D.sex << '\t' << D.age
+           << '\t' << D.choice << std::endl;
     return output;
 }
 std::istream &operator>>(std::istream &input, Student &D) {
-    input >> D._id >> D._name >> D._sex >> D._age >> D._choice;
+    input >> D.id >> D.name >> D.sex >> D.age >> D.choice;
     return input;
 }
 
@@ -50,19 +50,19 @@ class List {
     int _len;        //链表长度
 
    public:
-    void listIns(int n, T data);  //将数据插入第n个节点中
-    T listPop(T data);    //查找链表中的数据返回并删除节点
-    int listFind(T id);   //查找数据在链表中的位置
-    int listLen() const;  //返回链表长度
-    bool empty() const;   //返回是否为空
-    void listChange(int n, T data);      //修改链表第n个节点的值
-    std::string listPrint(int n) const;  //将链表输出
+    void ListIns(int n, T data);  //将数据插入第n个节点中
+    T ListPop(T data);    //查找链表中的数据返回并删除节点
+    int ListFind(T id);   //查找数据在链表中的位置
+    int ListLen() const;  //返回链表长度
+    bool Empty() const;   //返回是否为空
+    void ListChange(int n, T data);      //修改链表第n个节点的值
+    std::string ListPrint(int n) const;  //将链表输出
     List();
     ~List();
 };
 
 template <class T>
-bool List<T>::empty() const {
+bool List<T>::Empty() const {
     if (this->_head->_next == nullptr)
         return true;
     else
@@ -91,7 +91,7 @@ List<T>::~List() {
 }
 
 template <class T>
-void List<T>::listIns(int n, T data) {
+void List<T>::ListIns(int n, T data) {
     Node<T> *p = this->_head;
     for (int i = 0; i < n; i++) {
         if (p->_next == nullptr) throw "Error: Not so many nodes.";
@@ -105,9 +105,9 @@ void List<T>::listIns(int n, T data) {
 }
 
 template <class T>
-T List<T>::listPop(T data) {
-    if (this->empty()) throw "Error: The list is empty.";
-    int n = this->listFind(data);
+T List<T>::ListPop(T data) {
+    if (this->Empty()) throw "Error: The list is empty.";
+    int n = this->ListFind(data);
     if (n == -1) throw "Error: Data not found.";
     Node<T> *p = this->_head;
     for (int i = 0; i < n; i++) {
@@ -123,8 +123,8 @@ T List<T>::listPop(T data) {
 }
 
 template <class T>
-int List<T>::listFind(T data) {
-    if (this->empty()) return -1;
+int List<T>::ListFind(T data) {
+    if (this->Empty()) return -1;
     Node<T> *p = this->_head;
     p = p->_next;
     int i = 0;
@@ -137,13 +137,13 @@ int List<T>::listFind(T data) {
 }
 
 template <class T>
-int List<T>::listLen() const {
+int List<T>::ListLen() const {
     return this->_len;
 }
 
 template <class T>
-void List<T>::listChange(int n, T data) {
-    if (this->empty()) throw "Error: The list is empty.";
+void List<T>::ListChange(int n, T data) {
+    if (this->Empty()) throw "Error: The list is empty.";
 
     auto p = this->_head->_next;
     for (int i = 0; i < n; i++) {
@@ -154,8 +154,8 @@ void List<T>::listChange(int n, T data) {
 }
 
 template <class T>
-std::string List<T>::listPrint(int n) const {
-    if (this->empty()) throw "Error: The list is empty.";
+std::string List<T>::ListPrint(int n) const {
+    if (this->Empty()) throw "Error: The list is empty.";
 
     auto p = this->_head->_next;
     for (int i = 0; i < n; i++) {
@@ -183,17 +183,17 @@ int opening(List<Student> &list) {
     for (int i = 0; i < num; i++) {
         Student temp;
         std::cin >> temp;
-        list.listIns(i, temp);
+        list.ListIns(i, temp);
     }
     return num;
 }
 
 void printList(std::ostream &os, const List<Student> &list) {
-    if (list.empty()) throw "Error: The list is empty.";
+    if (list.Empty()) throw "Error: The list is empty.";
     os << "\nid" << '\t' << "name" << '\t' << "gender" << '\t' << "age" << '\t'
        << "first choise" << std::endl;
-    for (int i = 0; i < list.listLen(); i++) {
-        os << list.listPrint(i);
+    for (int i = 0; i < list.ListLen(); i++) {
+        os << list.ListPrint(i);
     }
 }
 
@@ -201,54 +201,54 @@ void insList(List<Student> &list) {
     std::cout << "Please enter the student location to insert: ";
     int i;
     std::cin >> i;
-    if (i < 0 || i > list.listLen()) throw "Error: Invalid input.";
+    if (i < 0 || i > list.ListLen()) throw "Error: Invalid input.";
     std::cout << "Please input the student's id, name, gender, age and first "
                  "choice in turn."
               << std::endl;
     Student temp;
     std::cin >> temp;
-    list.listIns(i, temp);
+    list.ListIns(i, temp);
     printList(std::cout, list);
 }
 
 void delList(List<Student> &list) {
-    if (list.empty()) throw "Error: The list is empty.";
+    if (list.Empty()) throw "Error: The list is empty.";
     std::cout << "Please enter the id of the student to delete: ";
     int i;
     std::cin >> i;
     Student temp;
-    temp._id = i;
-    auto s = list.listPop(temp);
+    temp.id = i;
+    auto s = list.ListPop(temp);
     std::cout << "The student information you deleted is: \n" << s;
-    if (!list.empty()) printList(std::cout, list);
+    if (!list.Empty()) printList(std::cout, list);
 }
 void findList(List<Student> &list) {
-    if (list.empty()) throw "Error: The list is empty.";
+    if (list.Empty()) throw "Error: The list is empty.";
     std::cout << "Please enter the id of the student you are looking for: ";
     int i;
     std::cin >> i;
     Student temp;
-    temp._id = i;
-    int n = list.listFind(temp);
+    temp.id = i;
+    int n = list.ListFind(temp);
     if (n == -1) throw "Error: Data no find.";
     std::cout << "\nid" << '\t' << "name" << '\t' << "gender" << '\t' << "age"
               << '\t' << "first choise" << std::endl
-              << list.listPrint(n);
+              << list.ListPrint(n);
 }
 void changeList(List<Student> &list) {
-    if (list.empty()) throw "Error: The list is empty.";
+    if (list.Empty()) throw "Error: The list is empty.";
     std::cout << "Please input the id of the student to be changed: ";
     int i;
     std::cin >> i;
     Student temp;
-    temp._id = i;
-    int n = list.listFind(temp);
+    temp.id = i;
+    int n = list.ListFind(temp);
     if (n == -1) throw "Error: Data no find.";
     std::cout << "Please enter the change student's id, name, gender, age and "
                  "first choise in turn"
               << std::endl;
     std::cin >> temp;
-    list.listChange(n, temp);
+    list.ListChange(n, temp);
     printList(std::cout, list);
 }
 
