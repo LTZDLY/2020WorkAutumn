@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <random>
+#include <sstream>
 #include <vector>
 
 using namespace std;
@@ -222,6 +223,19 @@ int radixSort(vector<int>& arr) {
     return 0;
 }
 
+double str2num(string s) {
+    stringstream ss;
+    double d = 0.0;
+    ss << s;
+    ss >> d;
+    return d;
+}
+bool isNum(string str) {
+    for (auto&& i : str)
+        if (!isdigit(i)) return false;
+    return true;
+}
+
 bool loop(long temp) {
     srand((unsigned int)(time(NULL)));
     vector<int> arr;
@@ -229,8 +243,18 @@ bool loop(long temp) {
         arr.push_back((int)random(0, 10000));
     }
     // for (auto&& i : arr) cout << i << " ";
-    cout << endl;
+    char ctemp = '\0';
+    cout << "Enter which command you want to use. ";
+    cin >> ctemp;
+    bool flag = false;
+    if (ctemp >= '1' && ctemp <= '8')
+        flag = true;
+    else if (ctemp == '9')
+        flag = false;
+    else
+        return false;
     for (int i = 0; i < 8; i++) {
+        if (flag) i = ctemp - '0' - 1;
         vector<int> arrc = arr;
         unsigned a = 0;
         double t = 0.0;
@@ -291,19 +315,19 @@ bool loop(long temp) {
         t = (double)(end - begin) / CLOCKS_PER_SEC * 1000;
         cout << "Running time: " << t << "ms" << endl;
         cout << "Exchange time: " << a << endl << endl;
+        if (flag) return true;
     }
     // for (auto&& i : arr) cout << i << " ";
     return true;
 }
-
-int main() {
+void opening() {
     cout << "**                Sorting algorithm comparison                **"
          << endl
          << "==============================================================="
          << endl
          << endl
-         << "Enter the number of random numbers, and sort them in the "
-            "following order:"
+         << "Enter the number of random numbers, and enter which command you "
+            "want to use. "
          << endl
          << "1. Bublle Sort" << endl
          << "2. Selction Sort" << endl
@@ -312,11 +336,26 @@ int main() {
          << "5. Quick Sort" << endl
          << "6. Merge Sort" << endl
          << "7. Heap Sort" << endl
-         << "8. Radix Sort" << endl;
+         << "8. Radix Sort" << endl
+         << "9. All methods above execute once in sequence." << endl;
+}
+int main() {
+    opening();
     long temp = 0;
-    cout << endl << "Please enter the number of random numbers to generate: ";
-    cin >> temp;
-    if (temp <= 0) throw "error";
+    string temps;
+    while (true) {
+        cout << endl
+             << "Please enter the number of random numbers to generate: ";
+        cin >> temps;
+        if (isNum(temps)) {
+            temp = str2num(temps);
+            if (temp <= 0) {
+                cout << "Error: Invalid input detected. Please try again.";
+            } else
+                break;
+        } else
+            cout << "Error: Invalid input detected. Please try again.";
+    }
     while (loop(temp))
         ;
     return 0;

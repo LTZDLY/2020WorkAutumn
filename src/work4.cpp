@@ -191,6 +191,7 @@ void Stack<T>::Pop() {
 }
 template <class T>
 T Stack<T>::Top() {
+    if (this->Empty()) throw "Error: The list is Empty.";
     return this->GetHead()->_next->_data;
 }
 
