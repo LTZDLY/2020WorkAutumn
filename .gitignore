@@ -3,3 +3,4 @@
 *.png
 *.docx
 src/leetcode.cpp
+src/test.cpp

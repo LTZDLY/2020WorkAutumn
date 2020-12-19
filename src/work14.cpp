@@ -16,8 +16,8 @@ T unionFind(map<T, T> m, T x) {
 }
 /*
 template <class T>
-bool checkUnionFind(map<T, T> m) {//若图中所有点不在同一集合，则图不连通，不存在最小生成树
-    auto it = m.begin();
+bool checkUnionFind(map<T, T> m)
+{//若图中所有点不在同一集合，则图不连通，不存在最小生成树 auto it = m.begin();
     T ans = unionFind(m, it->first);
     for (it = m.begin(); it != m.end(); it++) {
         if (unionFind(m, it->second) != ans) return false;
@@ -77,7 +77,7 @@ class Graph {
     bool InGraph(T v1, T v2);
     bool InGraph(vertex<T> v1, vertex<T> v2);
     bool InGraph(edge<T, E> edge);
-    //bool HasMst();
+    // bool HasMst();
     Graph<T, E> Prim(vertex<T> v);
     Graph<T, E> Kruskal();
 
@@ -311,13 +311,13 @@ Graph<T, E> Graph<T, E>::Kruskal() {
     for (auto&& i : this->_vertices) ufsets[i] = i;
     for (auto&& i : e) {
         if (unionFind(ufsets, i.v1) == unionFind(ufsets, i.v2)) continue;
-        ufsets[i.v1] = i.v2;
+        ufsets[unionFind(ufsets, i.v1)] = unionFind(ufsets, i.v2);
         if (!mst.InGraph(i.v1)) mst.InsertVertex(i.v1);
         if (!mst.InGraph(i.v2)) mst.InsertVertex(i.v2);
         mst.InsertEdge(i);
     }
     if (mst.NumEdges() != this->NumVertices() - 1)
-        throw "Error: The graph does not have a minimum spanning tree. ";hn
+        throw "Error: The graph does not have a minimum spanning tree. ";
     return mst;
 }
 /*
@@ -326,8 +326,10 @@ bool Graph<T, E>::HasMst() {
     cout << endl;
     vector<edge<T, E>> e;
     vector<vertex<T>> v;
-    // 当且仅当图为连通图，即从图上的任意一点出发都具有到达另一任意点的路径时，图才具有最小生成树
-    // 则随机选择一点作为起点进行搜索可到达的所有顶点，结束搜索后若仍具有不可到达的点则代表图不连通
+    //
+当且仅当图为连通图，即从图上的任意一点出发都具有到达另一任意点的路径时，图才具有最小生成树
+    //
+则随机选择一点作为起点进行搜索可到达的所有顶点，结束搜索后若仍具有不可到达的点则代表图不连通
     for (auto&& i : _vertices) {
         for (auto&& j : _vertices) {
             if (i == j) continue;
@@ -363,7 +365,7 @@ bool isNum(string str) {
     return true;
 }
 void opening() {
-    cout << " Power grid cost simulation system " << endl
+    cout << " Direct Communication Road Cost Simulation System " << endl
          << "==============================================================="
          << endl
          << " Please select the action to perform:" << endl
