@@ -1,10 +1,7 @@
 #include <algorithm>
-#include <cctype>
 #include <cmath>
 #include <iostream>
-#include <list>
 #include <sstream>
-#include <stack>
 #include <string>
 #include <vector>
 
