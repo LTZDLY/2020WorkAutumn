@@ -28,42 +28,40 @@ void symmetric(vector<vector<int>> arr) {
 }
 
 void transitive(vector<vector<int>> arr) {
-    vector<vector<int>> m(arr), a(arr), t(arr);
+    //使用warshall算法实现，具体原理见第6题和文档
     for (int i = 0; i < arr.size(); i++)
-        for (int j = 0; j < arr[0].size(); j++) {
-            a[i][j] = 0;
-            t[i][j] = arr[i][j];
-            m[i][j] = arr[i][j];
-        }
-    for (int h = 0; h < arr.size(); h++) {
-        for (int i = 0; i < arr.size(); i++)
-            for (int j = 0; j < arr[0].size(); j++)
-                if (m[i][j] == 1)
-                    for (int k = 0; k < arr.size(); k++)
-                        if (arr[j][k] == 1) a[i][k] = 1;
-        for (int i = 0; i < arr.size(); i++)
-            for (int j = 0; j < arr[0].size(); j++) {
-                m[i][j] = a[i][j];
-                t[i][j] += a[i][j];
-                a[i][j] = 0;
-                if (t[i][j] > 1) t[i][j] = 1;
-            }
-    }
-    output(t);
+        for (int j = 0; j < arr.size(); j++)
+            if (arr[j][i])
+                for (int k = 0; k < arr.size(); k++)
+                    arr[j][k] = arr[j][k] | arr[i][k];  //逻辑加
+    output(arr);
 }
 void opening(vector<vector<int>>& arr) {
-    int n, d;
+    int n;
     cout << "Reflexive, symmetric, and transitive closures of relationships. "
          << endl;
-    cout << "Please enter the number of rows of the matrix." << endl;
-    cin >> n;
+    cout << "Please enter the number of vertices to construct the relationship "
+            "matrix."
+         << endl;
+    while (true) {
+        cin >> n;
+        if (n > 0) break;
+        cout << "Invalid input dected, please try again.";
+    }
     arr.resize(n);
-    cout << "Please enter the number of columns of the matrix." << endl;
-    cin >> d;
-    for (auto&& i : arr) i.resize(d);
+    for (auto&& i : arr) i.resize(n);
     cout << "Please enter the relationship matrix" << endl;
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < d; j++) cin >> arr[i][j];
+    while (true) {
+        bool flag = false;
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++) {
+                cin >> arr[i][j];
+                if (arr[i][j] != 0 && arr[i][j] != 1) flag = true;
+            }
+        if (!flag) break;
+        cout << "Invalid input detected, please enter the relationship matrix "
+                "again."
+             << endl;
     }
 }
 
